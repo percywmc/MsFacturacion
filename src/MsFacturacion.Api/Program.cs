@@ -5,8 +5,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// Registro de dependencias siguiendo la arquitectura limpia
-builder.Services.AddSingleton<IComprobanteRepository, InMemoryComprobanteRepository>();
+// Registro de dependencias con soporte para SQL Server o en memoria
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+if (!string.IsNullOrEmpty(connection))
+{
+    builder.Services.AddScoped<IComprobanteRepository>(sp => new SqlServerComprobanteRepository(connection));
+}
+else
+{
+    builder.Services.AddSingleton<IComprobanteRepository, InMemoryComprobanteRepository>();
+}
 builder.Services.AddScoped<ComprobanteService>();
 
 builder.Services.AddEndpointsApiExplorer();
