@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using MsFacturacion.Api.Application;
 using MsFacturacion.Api.Domain;
 
@@ -57,10 +58,9 @@ public class BillingController : ControllerBase
 /// <summary>
 /// DTO de entrada para crear comprobantes.
 /// </summary>
-public record ComprobanteDto
-(
-    TipoComprobante Tipo,
-    string RucEmisor,
-    string RazonSocialEmisor,
-    decimal Monto
+public record ComprobanteDto(
+    [Required] TipoComprobante Tipo,
+    [Required, RegularExpression(@"^\d{11}$")] string RucEmisor,
+    [Required, StringLength(100)] string RazonSocialEmisor,
+    [Range(0.01, double.MaxValue)] decimal Monto
 );
