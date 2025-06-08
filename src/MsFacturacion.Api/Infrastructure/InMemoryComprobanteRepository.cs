@@ -18,8 +18,22 @@ public class InMemoryComprobanteRepository : IComprobanteRepository
         _db.Add(comprobante);
     }
 
+    public void Update(Comprobante comprobante)
+    {
+        var index = _db.FindIndex(c => c.Id == comprobante.Id);
+        if (index >= 0)
+        {
+            _db[index] = comprobante;
+        }
+    }
+
     public Comprobante? GetById(Guid id)
     {
         return _db.FirstOrDefault(c => c.Id == id);
+    }
+
+    public IEnumerable<Comprobante> GetAll()
+    {
+        return _db.ToList();
     }
 }

@@ -41,6 +41,16 @@ public class BillingController : ControllerBase
     }
 
     /// <summary>
+    /// Obtiene todos los comprobantes registrados.
+    /// </summary>
+    [HttpGet("comprobantes")]
+    public IActionResult ListarComprobantes()
+    {
+        var lista = _service.ObtenerTodos();
+        return Ok(lista);
+    }
+
+    /// <summary>
     /// Obtiene un comprobante por su identificador.
     /// </summary>
     [HttpGet("comprobantes/{id}")]
@@ -53,6 +63,38 @@ public class BillingController : ControllerBase
         }
         return Ok(comprobante);
     }
+
+    /// <summary>
+    /// Anula un comprobante existente.
+    /// </summary>
+    [HttpPost("comprobantes/{id}/anular")]
+    public IActionResult AnularComprobante(Guid id)
+    {
+        var comprobante = _service.ObtenerPorId(id);
+        if (comprobante is null)
+        {
+            return NotFound();
+        }
+
+        _service.Anular(id);
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Emite una nota de cr\u00e9dito asociada a un comprobante.
+    /// </summary>
+    [HttpPost("comprobantes/{id}/notas-credito")]
+    public IActionResult CrearNotaCredito(Guid id, [FromBody] NotaCreditoDto dto)
+    {
+        var comprobante = _service.ObtenerPorId(id);
+        if (comprobante is null)
+        {
+            return NotFound();
+        }
+
+        var nota = _service.EmitirNotaCredito(id, dto.Monto);
+        return CreatedAtAction(nameof(ObtenerComprobante), new { id = nota.Id }, nota);
+    }
 }
 
 /// <summary>
@@ -62,5 +104,12 @@ public record ComprobanteDto(
     [Required] TipoComprobante Tipo,
     [Required, RegularExpression(@"^\d{11}$")] string RucEmisor,
     [Required, StringLength(100)] string RazonSocialEmisor,
+    [Range(0.01, double.MaxValue)] decimal Monto
+);
+
+/// <summary>
+/// DTO para registrar notas de cr\u00e9dito.
+/// </summary>
+public record NotaCreditoDto(
     [Range(0.01, double.MaxValue)] decimal Monto
 );

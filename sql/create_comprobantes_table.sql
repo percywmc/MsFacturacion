@@ -4,5 +4,7 @@ CREATE TABLE Comprobantes (
     RucEmisor NVARCHAR(11) NOT NULL,
     RazonSocialEmisor NVARCHAR(100) NOT NULL,
     Monto DECIMAL(18,2) NOT NULL,
-    FechaEmision DATETIME2 NOT NULL
+    FechaEmision DATETIME2 NOT NULL,
+    Anulado BIT NOT NULL DEFAULT 0,
+    RelacionadoId UNIQUEIDENTIFIER NULL
 );

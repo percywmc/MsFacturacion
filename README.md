@@ -20,15 +20,19 @@ cd src/MsFacturacion.Api
 # dotnet run
 ```
 
-Al ejecutarse, la API expone un endpoint de prueba y el endpoint para emitir comprobantes de pago:
+Al ejecutarse, la API expone un endpoint de prueba y varios endpoints para gestionar comprobantes de pago:
 
 ```
 GET /api/billing/test
 
 POST /api/billing/comprobantes
+GET  /api/billing/comprobantes
+GET  /api/billing/comprobantes/{id}
+POST /api/billing/comprobantes/{id}/anular
+POST /api/billing/comprobantes/{id}/notas-credito
 ```
 
-El primero devuelve un mensaje de confirmación y el segundo permite registrar un nuevo comprobante.
+El primero devuelve un mensaje de confirmación y los demás permiten crear, consultar, anular comprobantes o emitir notas de crédito.
 
 ### Configuración de la base de datos
 
