@@ -2,7 +2,7 @@
 
 Este repositorio contiene un microservicio de facturación desarrollado en .NET 8.
 
-El servicio expone una API REST para la emisión de comprobantes de pago y forma parte de un sistema HIS más grande.
+El servicio expone una API REST para la emisión de comprobantes de pago y forma parte de un sistema HIS más grande. Se implementa siguiendo los principios de arquitectura limpia y el patrón CQRS.
 
 ## Estructura del proyecto
 
@@ -18,10 +18,12 @@ cd src/MsFacturacion.Api
 # dotnet run
 ```
 
-Al ejecutarse, la API expone un endpoint de prueba:
+Al ejecutarse, la API expone un endpoint de prueba y el endpoint para emitir comprobantes de pago:
 
 ```
 GET /api/billing/test
+
+POST /api/billing/comprobantes
 ```
 
-que devuelve un mensaje de confirmación.
+El primero devuelve un mensaje de confirmación y el segundo permite registrar un nuevo comprobante.
