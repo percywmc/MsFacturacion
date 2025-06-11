@@ -6,7 +6,7 @@ Plantilla de API en .NET 8 con una estructura de tres capas:
 - **Application**: servicios de aplicación.
 - **Infrastructure**: implementaciones de infraestructura.
 
-La API expone un único endpoint de prueba para validar su funcionamiento.
+La API expone endpoints para administrar comprobantes electrónicos y un endpoint de prueba.
 
 ## Uso
 
@@ -14,3 +14,5 @@ La API expone un único endpoint de prueba para validar su funcionamiento.
 cd src/MsFacturacion.Api
 dotnet run
 ```
+
+La cadena de conexión a SQL Server se encuentra en `appsettings.json` bajo `DefaultConnection`.
